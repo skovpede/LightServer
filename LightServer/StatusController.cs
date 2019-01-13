@@ -9,6 +9,10 @@ namespace LightServer
     public class StatusController : Controller
     {
         [HttpGet("status")]
-        public object GetStatus() => VeraController.Last;
+        public object GetStatus()
+        {
+            Response.Headers["Access-Control-Allow-Origin"] = "*";
+            return VeraController.Last;
+        }
     }
 }
