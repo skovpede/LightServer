@@ -19,11 +19,11 @@ namespace LightServer
         public VeraController(IConfiguration configuration) => this.configuration = configuration;
         public static void LoadFile()
         {
-            try
-            {
-                Last = System.IO.File.ReadAllText(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/latest.json");
-            }
-            catch (Exception) { }
+            //try
+            //{
+            //    Last = System.IO.File.ReadAllText(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/latest.json");
+            //}
+            //catch (Exception) { }
         }
 
         [HttpPut("vera")]
@@ -42,7 +42,7 @@ namespace LightServer
                      @on = s.value == "1",
                      name = config.Value
                  }).ToList();
-            System.IO.File.WriteAllText(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/latest.json", JsonConvert.SerializeObject(l));
+            //System.IO.File.WriteAllText(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/latest.json", JsonConvert.SerializeObject(l));
             Last = l;
         }
     }
