@@ -32,21 +32,21 @@ namespace LightServer
         public void Index([FromBody]VeraModel.RootObject model)
         {
             LastInput = model;
-            //var l =
-            //    (from config in configuration.GetChildren()
-            //     let match = regex.Match(config.Key)
-            //     where match.Success
-            //     from d in model.devices
-            //     where d.id.ToString() == match.Groups[1].Value
-            //     from s in d.states.Where(state => state.service == "urn:upnp-org:serviceId:SwitchPower1").Take(1)
-            //     select new
-            //     {
-            //         d.id,
-            //         @on = s.value == "1",
-            //         name = config.Value
-            //     }).ToList();
-            ////System.IO.File.WriteAllText(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/latest.json", JsonConvert.SerializeObject(l));
-            //Last = l;
+            var l =
+                (from config in configuration.GetChildren()
+                 let match = regex.Match(config.Key)
+                 where match.Success
+                 from d in model.devices
+                 where d.id.ToString() == match.Groups[1].Value
+                 from s in d.states.Where(state => state.service == "urn:upnp-org:serviceId:SwitchPower1").Take(1)
+                 select new
+                 {
+                     d.id,
+                     @on = s.value == "1",
+                     name = config.Value
+                 }).ToList();
+            //System.IO.File.WriteAllText(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/latest.json", JsonConvert.SerializeObject(l));
+            Last = l;
         }
 
         [HttpGet("vera")]
