@@ -19,13 +19,21 @@ namespace LightServer
             this.client = client;
             this.configuration = configuration;
         }
+        
+        private void AddCorsHeaders()
+        {
+            Response.Headers["Access-Control-Allow-Origin"] = "*";
+            Response.Headers["Access-Control-Allow-Methods"] = "PUT,OPTIONS";
+            Response.Headers["Access-Control-Allow-Headers"] = "Content-Type";
+        }
 
         [HttpOptions("set/{id}")]
-        public void Preflight(string id) => Response.Headers["Access-Control-Allow-Origin"] = "*";
+        public void Preflight(string id) => AddCorsHeaders();
 
         [HttpPut("set/{id}")]
         public async Task PutState(string id, [FromBody]PutModel wire)
         {
+            AddCorsHeaders();
             var response = await client.PostAsJsonAsync(configuration.GetValue<string>("BridgeUrl"),
                 new
                 {
