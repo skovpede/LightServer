@@ -24,15 +24,21 @@ namespace LightServer
         public void Preflight(string id) => Response.Headers["Access-Control-Allow-Origin"] = "*";
 
         [HttpPut("set/{id}")]
-        public async Task PutState(string id, [FromBody]bool state)
+        public async Task PutState(string id, [FromBody]PutModel wire)
         {
             var response = await client.PostAsJsonAsync(configuration.GetValue<string>("BridgeUrl"),
                 new
                 {
                     device = id,
-                    state = state ? "on" : "off"
+                    state = wire.State ? "on" : "off"
                 });
             response.EnsureSuccessStatusCode();
         }
     }
+
+    public class PutModel
+    {
+        public bool State { get; set; }
+    }
+
 }
