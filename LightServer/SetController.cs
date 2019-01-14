@@ -20,6 +20,9 @@ namespace LightServer
             this.configuration = configuration;
         }
 
+        [HttpOptions("set/{id}")]
+        public void Preflight(string id) => Response.Headers["Access-Control-Allow-Origin"] = "*";
+
         [HttpPut("set/{id}")]
         public async Task PutState(string id, [FromBody]bool state)
         {
